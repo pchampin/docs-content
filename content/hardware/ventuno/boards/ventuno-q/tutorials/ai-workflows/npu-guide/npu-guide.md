@@ -205,8 +205,10 @@ pip install ai-edge-litert==1.3.0 opencv-python numpy
 ```python
 from ai_edge_litert.interpreter import Interpreter, load_delegate
 
+MODEL_FILENAME="model.tflite" # change to actual model filename
+
 qnn_delegate = load_delegate("libQnnTFLiteDelegate.so", options={"backend_type": "htp"})
-interpreter = Interpreter(model_path="model.tflite", experimental_delegates=[qnn_delegate])
+interpreter = Interpreter(model_path=MODEL_FILENAME, experimental_delegates=[qnn_delegate])
 ```
 
 **ONNX Runtime setup** (the QNN-enabled build isn't a plain `pip install onnxruntime` — see the [ONNX Runtime tutorial](/tutorials/ventuno-q/onnx-runtime) for the full three-step install):
@@ -222,8 +224,10 @@ pip install onnxruntime_qnn-*-linux_aarch64.whl
 ```python
 import onnxruntime as ort
 
+MODEL_FILENAME="model.onnx" # change to actual model filename
+
 providers = [("QNNExecutionProvider", {"backend_type": "htp", "library_path": "/usr/lib/libQnnHtp.so"})]
-sess = ort.InferenceSession("model.onnx", providers=providers)
+sess = ort.InferenceSession(MODEL_FILENAME, providers=providers)
 ```
 
 ## Common Constraints When Targeting the NPU
